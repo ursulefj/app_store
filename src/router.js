@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
 
 Vue.use(Router);
 
@@ -11,7 +10,25 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: Home
+      component: () =>
+        import(/* webpackChunkName: "layout" */ "./layouts/Basiclayout"),
+      children: [
+        {
+          path: "/course",
+          neme: "course",
+          meta: { title: "课程" },
+          component: () =>
+            import(/* webpackChunkName: "course" */ "./views/course/course"),
+          children: [
+            {
+              path: "/course/category",
+              name: "category",
+              component: () =>
+                import(/* webpackChunkName: "user" */ "./layouts/Banner")
+            }
+          ]
+        }
+      ]
     },
     {
       path: "/about",
